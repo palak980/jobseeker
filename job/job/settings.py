@@ -25,7 +25,7 @@ SECRET_KEY = 'hbc+5%&^cvr+by1xwu(f#6&q(4yynwj9sj==198an@1qb2rb%_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -77,12 +77,17 @@ WSGI_APPLICATION = 'job.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+import os
+import dj_database_url
+
+if not DEBUG:
+    DATABASES = {'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': 'db.sqlite3',
+        }}
 
 
 # Password validation
